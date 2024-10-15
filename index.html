@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Animada</title>
+   <style>
+    body {
+        background-color: aliceblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Efecto de nieve */
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    .heart, .heart1, .heart2, .heart3 {
+        font-size: 5rem;
+        position: absolute;
+        animation: heart 0.5s infinite alternate linear;
+    }
+
+    .heart {
+        top: 0;
+        left: 0;
+    }
+    .heart1 {
+        top: 0;
+        right: 0;
+    }
+    .heart2 {
+        bottom: 0;
+        left: 0;
+    }
+    .heart3 {
+        bottom: 0;
+        right: 0;
+    }
+
+    @keyframes heart {
+        from {
+            transform: scale(0.7);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+
+    /* Estilos del mensaje */
+    .mensaje {
+        border: 2px solid blue;
+        padding: 20px;
+        height: 0;
+        width: 400px;
+        overflow: hidden;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        transition: height 0.5s ease;
+    }
+
+    .mensaje h1 {
+        text-align: center;
+        color: darkblue;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .mensaje p {
+        text-align: left;
+        color: darkslategray;
+        font-size: 1rem;
+        line-height: 1.5;
+        margin: 10px 0;
+    }
+
+    /* Botón */
+    .toggle-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        background-color: lightcoral;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        display: block;
+    }
+
+    .toggle-btn:hover {
+        background-color: crimson;
+    }
+
+   </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+    
+    <div class="heart">❤️</div>
+    <div class="heart1">❤️</div>
+    <div class="heart2">❤️</div>
+    <div class="heart3">❤️</div>
+
+    <!-- Mensaje oculto -->
+    <div class="mensaje" id="mensaje">
+        <h1>Hola mi amor🥺❤️</h1>
+
+        <p>¿Cómo estás, mi niña más hermosa del mundo? No quiero que te salgas de tu casa, amor.</p>
+        <p>Me preocupa tu seguridad, tu salud y tu bienestar si te vas de tu casa, mi vida.</p>
+        <p>Tengo miedo de que te pueda pasar algo malo si decides irte.</p>
+        <p>¿Por qué quieres irte de tu casa, amor?</p>
+        <p>¿Qué te están haciendo?</p>
+    </div>
+
+    <!-- Botón para mostrar/ocultar el mensaje debajo del mensaje -->
+    <button class="toggle-btn" onclick="toggleMensaje()">Mostrar Mensaje</button>
+
+    <script>
+        // Función para mostrar/ocultar el mensaje
+        function toggleMensaje() {
+            var mensaje = document.getElementById("mensaje");
+
+            // Si el mensaje está colapsado, expande la altura
+            if (mensaje.style.height === "0px" || mensaje.style.height === "") {
+                mensaje.style.height = "300px"; // Ajusta la altura para expandir
+            } else {
+                mensaje.style.height = "0"; // Colapsa el mensaje
+            }
+        }
+
+        // Efecto de nieve
+        var canvas = document.getElementById("snowCanvas");
+        var ctx = canvas.getContext("2d");
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        var numFlakes = 100;
+        var flakes = [];
+
+        // Crear los copos de nieve
+        for (var i = 0; i < numFlakes; i++) {
+            flakes.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 3 + 1,
+                speedX: Math.random() * 2 - 1,
+                speedY: Math.random() * 3 + 1
+            });
+        }
+
+        function drawFlakes() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+
+            for (var i = 0; i < flakes.length; i++) {
+                var flake = flakes[i];
+                ctx.moveTo(flake.x, flake.y);
+                ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2, true);
+            }
+            ctx.fill();
+            moveFlakes();
+        }
+
+        function moveFlakes() {
+            for (var i = 0; i < flakes.length; i++) {
+                var flake = flakes[i];
+                flake.x += flake.speedX;
+                flake.y += flake.speedY;
+
+                if (flake.y > height) {
+                    flakes[i] = {
+                        x: Math.random() * width,
+                        y: 0,
+                        radius: flake.radius,
+                        speedX: flake.speedX,
+                        speedY: flake.speedY
+                    };
+                }
+            }
+        }
+
+        function updateSnow() {
+            drawFlakes();
+            requestAnimationFrame(updateSnow);
+        }
+
+        updateSnow();
+
+        // Redimensionar canvas al cambiar el tamaño de la ventana
+        window.addEventListener("resize", function() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        });
+    </script>
+</body>
+</html>
