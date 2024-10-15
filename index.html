@@ -4,107 +4,140 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carta Animada</title>
-   <style>
-    body {
-        background-color: aliceblue;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        font-family: Arial, sans-serif;
-        position: relative;
-        overflow: hidden;
-    }
-
-    /* Efecto de nieve */
-    canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
-    }
-
-    .heart, .heart1, .heart2, .heart3 {
-        font-size: 5rem;
-        position: absolute;
-        animation: heart 0.5s infinite alternate linear;
-    }
-
-    .heart {
-        top: 0;
-        left: 0;
-    }
-    .heart1 {
-        top: 0;
-        right: 0;
-    }
-    .heart2 {
-        bottom: 0;
-        left: 0;
-    }
-    .heart3 {
-        bottom: 0;
-        right: 0;
-    }
-
-    @keyframes heart {
-        from {
-            transform: scale(0.7);
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+            flex-direction: column;
         }
-        to {
-            transform: scale(1);
+
+        /* Efecto de nieve */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
-    }
 
-    /* Estilos del mensaje */
-    .mensaje {
-        border: 2px solid blue;
-        padding: 20px;
-        height: 0;
-        width: 400px;
-        overflow: hidden;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        transition: height 0.5s ease;
-    }
+        .heart, .heart1, .heart2, .heart3 {
+            font-size: 5rem;
+            position: absolute;
+            animation: heart 0.5s infinite alternate linear;
+        }
 
-    .mensaje h1 {
-        text-align: center;
-        color: darkblue;
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-    }
+        .heart {
+            top: 0;
+            left: 0;
+        }
 
-    .mensaje p {
-        text-align: left;
-        color: darkslategray;
-        font-size: 1rem;
-        line-height: 1.5;
-        margin: 10px 0;
-    }
+        .heart1 {
+            top: 0;
+            right: 0;
+        }
 
-    /* Botón */
-    .toggle-btn {
-        margin-top: 20px;
-        padding: 10px 20px;
-        font-size: 1.2rem;
-        cursor: pointer;
-        background-color: lightcoral;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-        text-align: center;
-        display: block;
-    }
+        .heart2 {
+            bottom: 0;
+            left: 0;
+        }
 
-    .toggle-btn:hover {
-        background-color: crimson;
-    }
+        .heart3 {
+            bottom: 0;
+            right: 0;
+        }
 
-   </style>
+        @keyframes heart {
+            from {
+                transform: scale(0.7);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* Estilos del mensaje */
+        .mensaje {
+            border: 2px solid blue;
+            padding: 20px;
+            height: 0;
+            width: 80vw; /* Ajusta el ancho para que sea relativo al ancho de la pantalla */
+            max-width: 500px; /* Limita el ancho máximo */
+            overflow: hidden;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: height 0.5s ease;
+        }
+
+        .mensaje h1 {
+            text-align: center;
+            color: darkblue;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .mensaje p {
+            text-align: left;
+            color: darkslategray;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+
+        /* Botón */
+        .toggle-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            background-color: lightcoral;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            display: block;
+        }
+
+        .toggle-btn:hover {
+            background-color: crimson;
+        }
+
+        /* Imagen del oso */
+        .imagen {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .imagen img {
+            width: 150px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 3px 6px 30px rgba(253, 2, 2, 0.849);
+        }
+
+        @media (max-width: 600px) {
+            .mensaje h1 {
+                font-size: 1.2rem;
+            }
+
+            .mensaje p {
+                font-size: 0.9rem;
+            }
+
+            .toggle-btn {
+                font-size: 1rem;
+            }
+        }
+  
+    </style>
 </head>
 <body>
     <canvas id="snowCanvas"></canvas>
@@ -114,15 +147,19 @@
     <div class="heart2">❤️</div>
     <div class="heart3">❤️</div>
 
+    <!-- Imagen del oso -->
+    <div class="imagen">
+        <img src="oso.gif" alt="Oso animado">
+    </div> 
+
     <!-- Mensaje oculto -->
     <div class="mensaje" id="mensaje">
-        <h1>Hola mi amor🥺❤️</h1>
+        <h1>Para el amor de mi vida</h1>
 
-        <p>¿Cómo estás, mi niña más hermosa del mundo? No quiero que te salgas de tu casa, amor.</p>
-        <p>Me preocupa tu seguridad, tu salud y tu bienestar si te vas de tu casa, mi vida.</p>
-        <p>Tengo miedo de que te pueda pasar algo malo si decides irte.</p>
-        <p>¿Por qué quieres irte de tu casa, amor?</p>
-        <p>¿Qué te están haciendo?</p>
+        <p>Mi amor, cada día que pasa, me doy cuenta de lo afortunado que soy por tenerte a mi lado. Eres mi sol en los días más oscuros, mi refugio, y el latido más hermoso en mi corazón.</p>
+        <p>No hay palabras suficientes para describir lo mucho que te amo. Cada momento contigo es un tesoro que guardo en lo más profundo de mi ser, porque tú haces mi vida mejor en cada sentido.</p>
+        <p>Quiero que siempre recuerdes lo especial que eres para mí, y que cada latido de mi corazón te pertenece. Te amo más de lo que las estrellas brillan en el cielo, y siempre estaré aquí para ti, mi amor eterno.</p>
+        <p>Con todo mi amor, tuyo para siempre ❤️</p>
     </div>
 
     <!-- Botón para mostrar/ocultar el mensaje debajo del mensaje -->
@@ -135,7 +172,7 @@
 
             // Si el mensaje está colapsado, expande la altura
             if (mensaje.style.height === "0px" || mensaje.style.height === "") {
-                mensaje.style.height = "300px"; // Ajusta la altura para expandir
+                mensaje.style.height = "auto"; // Ajusta la altura para expandir según el contenido
             } else {
                 mensaje.style.height = "0"; // Colapsa el mensaje
             }
